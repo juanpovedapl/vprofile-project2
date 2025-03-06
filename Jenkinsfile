@@ -41,6 +41,16 @@ pipeline {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
+        stage('Check SonarScanner version') {
+            environment {
+                SCANNER_HOME = tool "${SONARSCANNER}"
+            }
+            steps {
+                sh 'echo "SonarScanner is installed at: $SCANNER_HOME xd"'
+                sh '$SCANNER_HOME/bin/sonar-scanner -v'
+            }
+        }
+
         stage('Sonar Analysis'){
             environment{
                 scannerHome = tool "${SONARSCANNER}"
