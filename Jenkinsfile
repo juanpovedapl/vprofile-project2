@@ -58,7 +58,7 @@ pipeline {
             steps{
                 withSonarQubeEnv("${SONARSERVER}"){
                     sh '''export SONAR_SCANNER_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED" 
-                    
+
                     ${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=vprofile \
                    -Dsonar.projectName=vprofile  \
                    -Dsonar.projectVersion=1.0 \
@@ -69,6 +69,14 @@ pipeline {
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
 
                 }
+            }
+        }
+        stage('Quality Gate'){
+            steps{
+                timeout(time:1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+              
             }
         }
     }
