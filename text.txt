@@ -1,3 +1,4 @@
 para poder disparar el webhook
 cambio cambio x7
 xd para hacer commit
+cambbio de version a sonnar 6.0.2
