@@ -59,7 +59,7 @@ pipeline {
                 withSonarQubeEnv("${SONARSERVER}"){
                     sh '''export SONAR_SCANNER_OPTS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.stream=ALL-UNNAMED" 
 
-                    ${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=vprofile \
+                    ${scannerHome}/bin/sonar-scanner  -Dsonar.projectKey=vprofile \
                    -Dsonar.projectName=vprofile  \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
@@ -84,11 +84,11 @@ pipeline {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '${NEXUSIP}:${NEXUSPORT}',
+                    nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
                     groupId: 'QA',
-                    version: '${env.BUILD_ID}-${env.BUILD_TIMESTAMP}',
-                    repository: '${RELEASE_REPO}',
-                    credentialsId: '${NEXUS_LOGIN}',
+                    version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
+                    repository: "${RELEASE_REPO}",
+                    credentialsId: "${NEXUS_LOGIN}",
                     artifacts: [ 
                         [artifactId:'vproapp',
                         classifier: '',
